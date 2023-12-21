@@ -3,12 +3,20 @@ import dotenv from "dotenv"
 import mongoose from "mongoose";
 import { DB_NAME } from "./constants.js";
 import connectDB from "./db/index.js";
+import { app } from "./app.js";
 
 dotenv.config({
     path:'./env'
 })
-connectDB();
-
+connectDB()
+.then(()=>{
+    app.listen(process.env.PORT||8000,()=>{//is giving error due to port is alredy in use
+        console.log(`server is listinnig at port : ${process.env.PORT}`); 
+    } )
+})
+.catch((err)=>{
+    console.log("MONGO connection error" ,err);
+})
 
 /*
 import express from "express";
